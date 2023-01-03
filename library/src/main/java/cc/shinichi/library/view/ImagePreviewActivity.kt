@@ -36,6 +36,7 @@ import cc.shinichi.library.tool.common.HttpUtil
 import cc.shinichi.library.tool.common.NetworkUtil
 import cc.shinichi.library.tool.image.DownloadPictureUtil.downloadPicture
 import cc.shinichi.library.tool.ui.ToastUtil
+import com.anggrayudi.storage.SimpleStorageHelper
 import com.bumptech.glide.Glide
 import com.google.android.material.transition.platform.MaterialContainerTransform
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
@@ -75,6 +76,8 @@ class ImagePreviewActivity : AppCompatActivity(), Handler.Callback, View.OnClick
     private var currentItem = 0
     private var currentItemOriginPathUrl: String? = ""
     private var lastProgress = 0
+
+    private val storageHelper by lazy { SimpleStorageHelper(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // 只有安卓版本大于 5.0 才可使用过度动画
@@ -231,6 +234,12 @@ class ImagePreviewActivity : AppCompatActivity(), Handler.Callback, View.OnClick
                 ImagePreview.instance.bigImagePageChangeListener?.onPageScrollStateChanged(state)
             }
         })
+
+        if (ImagePreview.instance.safDirectoryPermissionListener != null) {
+            storageHelper.onStorageAccessGranted = { _, root ->
+                ImagePreview.instance.safDirectoryPermissionListener!!.onGranted(root)
+            }
+        }
     }
 
     /**
@@ -258,7 +267,7 @@ class ImagePreviewActivity : AppCompatActivity(), Handler.Callback, View.OnClick
     private fun convertPercentToBlackAlphaColor(percent: Float): Int {
         val realPercent = 1f.coerceAtMost(0f.coerceAtLeast(percent))
         val intAlpha = (realPercent * 255).toInt()
-        val stringAlpha = Integer.toHexString(intAlpha).toLowerCase(Locale.CHINA)
+        val stringAlpha = Integer.toHexString(intAlpha).lowercase(Locale.CHINA)
         val color = "#" + (if (stringAlpha.length < 2) "0" else "") + stringAlpha + "000000"
         return Color.parseColor(color)
     }
@@ -424,6 +433,11 @@ class ImagePreviewActivity : AppCompatActivity(), Handler.Callback, View.OnClick
             // 下载当前图片
             downloadCurrentImg()
         }
+    }
+
+    // 请求文件夹读写权限
+    fun requireDirectoryAccess() {
+        storageHelper.requestStorageAccess()
     }
 
     override fun onRequestPermissionsResult(

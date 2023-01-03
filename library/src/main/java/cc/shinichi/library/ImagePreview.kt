@@ -133,6 +133,8 @@ class ImagePreview {
         private set
     var onOriginProgressListener: OnOriginProgressListener? = null
         private set
+    var safDirectoryPermissionListener: SAFDirectoryPermissionListener? = null
+        private set
 
     // 自定义百分比布局layout id
     @LayoutRes
@@ -366,7 +368,10 @@ class ImagePreview {
         return this
     }
 
-    fun setProgressLayoutId(progressLayoutId: Int, onOriginProgressListener: OnOriginProgressListener): ImagePreview {
+    fun setProgressLayoutId(
+        progressLayoutId: Int,
+        onOriginProgressListener: OnOriginProgressListener
+    ): ImagePreview {
         setOnOriginProgressListener(onOriginProgressListener)
         this.progressLayoutId = progressLayoutId
         return this
@@ -407,6 +412,12 @@ class ImagePreview {
         bigImagePageChangeListener = null
         progressLayoutId = -1
         lastClickTime = 0
+        safDirectoryPermissionListener = null
+    }
+
+    fun setSAFDirectoryPermissionListener(listener: SAFDirectoryPermissionListener): ImagePreview {
+        this.safDirectoryPermissionListener = listener
+        return this
     }
 
     fun start() {

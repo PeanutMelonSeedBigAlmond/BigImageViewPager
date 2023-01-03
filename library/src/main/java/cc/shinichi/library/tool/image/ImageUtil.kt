@@ -12,7 +12,6 @@ import cc.shinichi.library.tool.common.Print.d
 import cc.shinichi.library.tool.ui.PhoneUtil
 import java.io.*
 import java.util.*
-import kotlin.text.Typography.degree
 
 /**
  * @author 工藤
@@ -301,30 +300,51 @@ object ImageUtil {
     }
 
     fun isAnimImageWithMime(url: String, path: String): Boolean {
-        return "gif".equals(getImageTypeWithMime(path), ignoreCase = true) || url.toLowerCase(Locale.CHINA).endsWith("gif")
+        return "gif".equals(
+            getImageTypeWithMime(path),
+            ignoreCase = true
+        ) || url.lowercase(Locale.CHINA)
+            .endsWith("gif")
                 || isAnimWebp(url, path)
     }
 
     fun isPngImageWithMime(url: String, path: String): Boolean {
-        return "png".equals(getImageTypeWithMime(path), ignoreCase = true) || url.toLowerCase(Locale.CHINA).endsWith("png")
+        return "png".equals(
+            getImageTypeWithMime(path),
+            ignoreCase = true
+        ) || url.lowercase(Locale.CHINA)
+            .endsWith("png")
     }
 
     fun isJpegImageWithMime(url: String, path: String): Boolean {
-        return ("jpeg".equals(getImageTypeWithMime(path), ignoreCase = true) || "jpg".equals(getImageTypeWithMime(path), ignoreCase = true)
-                || url.toLowerCase(Locale.CHINA).endsWith("jpeg") || url.toLowerCase(Locale.CHINA).endsWith("jpg"))
+        return ("jpeg".equals(getImageTypeWithMime(path), ignoreCase = true) || "jpg".equals(
+            getImageTypeWithMime(path),
+            ignoreCase = true
+        )
+                || url.lowercase(Locale.CHINA).endsWith("jpeg") || url.lowercase(Locale.CHINA)
+            .endsWith("jpg"))
     }
 
     fun isBmpImageWithMime(url: String, path: String): Boolean {
-        return "bmp".equals(getImageTypeWithMime(path), ignoreCase = true) || url.toLowerCase(Locale.CHINA).endsWith("bmp")
+        return "bmp".equals(
+            getImageTypeWithMime(path),
+            ignoreCase = true
+        ) || url.lowercase(Locale.CHINA)
+            .endsWith("bmp")
     }
 
     fun isWebpImageWithMime(url: String, path: String): Boolean {
-        return "webp".equals(getImageTypeWithMime(path), ignoreCase = true) || url.toLowerCase(Locale.CHINA).endsWith("webp")
+        return "webp".equals(
+            getImageTypeWithMime(path),
+            ignoreCase = true
+        ) || url.lowercase(Locale.CHINA)
+            .endsWith("webp")
     }
 
     fun isHeifImageWithMime(url: String, path: String): Boolean {
         return "heif".equals(getImageTypeWithMime(path), ignoreCase = true)
-                || url.toLowerCase(Locale.CHINA).endsWith("heif") || url.toLowerCase(Locale.CHINA).endsWith("heic")
+                || url.lowercase(Locale.CHINA).endsWith("heif") || url.lowercase(Locale.CHINA)
+            .endsWith("heic")
     }
 
     fun isStaticImage(url: String, path: String): Boolean {
